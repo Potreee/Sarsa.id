@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>404Error - Sarsa</title>
+  <style>
+    .toggle-icon {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .rotate-icon {
+      transform: rotate(90deg);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Hover Effect for Desktop Navbar Links (Only Color Change to Maroon) */
+    .navbar-link:hover {
+      color: #800000;
+      /* Warna maroon saat hover */
+    }
+
+    /* Hover Effect for Mobile Navbar Links (Only Color Change to Maroon) */
+    .mobile-link:hover {
+      color: #800000;
+      /* Warna maroon saat hover */
+    }
+
+    /* Hover Effect for Menu Button (Hamburger) in Mobile */
+    .toggle-icon:hover {
+      color: #800000;
+      /* Warna maroon saat hover */
+      transition: color 0.3s ease-in-out;
+      /* Efek transisi warna */
+    }
+
+
+    /* Glitch Animation for Image */
+    @keyframes glitch-img {
+      0% {
+        transform: translateX(0);
+        filter: brightness(1);
+      }
+
+      20% {
+        transform: translateX(-5px);
+        filter: brightness(1.2) hue-rotate(20deg);
+      }
+
+      40% {
+        transform: translateX(5px);
+        filter: brightness(0.8) hue-rotate(-10deg);
+      }
+
+      60% {
+        transform: translateX(-5px);
+        filter: brightness(1.2) hue-rotate(40deg);
+      }
+
+      80% {
+        transform: translateX(5px);
+        filter: brightness(0.8) hue-rotate(-20deg);
+      }
+
+      100% {
+        transform: translateX(0);
+        filter: brightness(1);
+      }
+    }
+
+    /* Glitch Animation for Image */
+    .glitch-img {
+      animation: glitch-img 1.5s infinite;
+    }
+
+    /* Shake Animation for Text */
+    @keyframes shake-text {
+      0% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+
+      75% {
+        transform: translateX(-5px);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    /* Apply shake effect to the "UPS!" text */
+    .shake-text {
+      animation: shake-text 1s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-gradient-to-b from-[#FEFCF3] to-[#E3B7A0] h-screen overflow-hidden flex flex-col items-center justify-center">
+  <!-- Navbar Desktop -->
+  <nav
+    class="fixed top-0 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[1756px] h-[80px] bg-[#CD9875] rounded-[30px] flex items-center justify-between px-8 hidden lg:flex z-[9999] shadow-lg">
+    <div class="flex items-center gap-3">
+      <img src="img/logo-sarsa.png" class="w-16 h-16 object-cover" alt="SARSA Logo" />
+      <div class="text-white text-2xl font-bold">SARSA.ID</div>
+    </div>
+    <div class="flex gap-10">
+      <a href="/" class="text-white text-lg font-bold navbar-link">Beranda</a>
+      <a href="/gallery" class="text-white text-lg font-bold navbar-link">Galeri & Inspirasi</a>
+      <a href="/workshop" class="text-white text-lg font-bold navbar-link">Workshop</a>
+      <a href="/service" class="text-white text-lg font-bold navbar-link">Layanan</a>
+    </div>
+  </nav>
+  <!-- End Navbar Desktop -->
+
+  <!-- Navbar Mobile -->
+  <div
+    class="fixed top-0 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[600px] h-[70px] bg-[#CD9875] rounded-[20px] flex items-center justify-between px-4 lg:hidden z-[9999] shadow-lg">
+    <div class="flex items-center gap-2">
+      <img src="img/logo-sarsa.png" class="w-12 h-12 object-cover" alt="SARSA Logo" />
+      <div class="text-white text-lg font-bold">SARSA.ID</div>
+    </div>
+    <button onclick="toggleMenu()" id="menuButton" class="text-white text-xl font-bold toggle-icon">
+      ☰
+    </button>
+  </div>
+
+  <!-- Menu Mobile -->
+  <div id="mobileMenu"
+    class="hidden bg-[#CD9875] rounded-[20px] w-[90%] max-w-[600px] fixed left-1/2 transform -translate-x-1/2 mt-3 top-[70px] z-[9998] shadow-lg">
+    <a href="/" class="block text-white text-lg font-bold p-3 text-center mobile-link">Beranda</a>
+    <a href="/gallery" class="block text-white text-lg font-bold p-3 text-center mobile-link">Galeri & Inspirasi</a>
+    <a href="/workshop" class="block text-white text-lg font-bold p-3 text-center mobile-link">Workshop</a>
+    <a href="/service" class="block text-white text-lg font-bold p-3 text-center mobile-link">Layanan</a>
+  </div>
+  <!-- End Navbar Mobile -->
+
+  <!-- Main Content -->
+  <div class="flex flex-col items-center justify-center min-h-screen mt-10 md:mt-20 lg:mt-32">
+    <!-- Error Image with Glitch effect -->
+    <img src="img/error404.svg" class="w-96 md:w-240 glitch-img" alt="Error 404 Illustration" />
+
+    <!-- Text "UPS!" with Shake effect -->
+    <div class="text-[#8E5950] text-center font-bold text-[60px] md:text-[80px] mt-8 shake-text">
+      UPS!
+    </div>
+
+    <!-- Text "HALAMAN INI MASIH KOSONG..." -->
+    <div class="text-[#8E5950] text-center font-bold text-3xl md:text-4xl mt-4 leading-tight">
+      HALAMAN INI MASIH KOSONG...
+    </div>
+
+    <!-- Text "SILAKAN KEMBALI KE BERANDA" -->
+    <div class="text-[#8E5950] text-center font-bold text-3xl md:text-4xl mt-2 leading-tight">
+      SILAKAN KEMBALI KE <a href="/page-home/src/index.html" class="underline">BERANDA</a>
+    </div>
+  </div>
+  <!-- End Main Content -->
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>
