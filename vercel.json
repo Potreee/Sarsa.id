@@ -4,7 +4,7 @@
     { "source": "/gallery", "destination": "/page-gallery/src/index.html" },
     { "source": "/service", "destination": "/page-service/src/index.html" },
     { "source": "/workshop", "destination": "/page-workshop/src/index.html" },
-    { "source": "/error", "destination": "/page-error/src/index.html" }
+    { "source": "/error", "destination": "/page-error/src/index.html" },
 
     { "source": "/gallery/img/:path*", "destination": "/page-gallery/src/img/:path*" },
     { "source": "/gallery/script.js", "destination": "/page-gallery/src/script.js" },
