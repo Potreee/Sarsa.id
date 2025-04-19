@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeri - Sarsa</title>
+  <link rel="stylesheet" href="./vars.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    a,
+    button,
+    input,
+    select,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: none;
+      text-decoration: none;
+      background: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    menu,
+    ol,
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toggle-icon {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .rotate-icon {
+      transform: rotate(90deg);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    /* Hover Effect for Desktop Navbar Links (Only Color Change to Maroon) */
+    .navbar-link:hover {
+      color: #800000;
+      /* Warna maroon saat hover */
+    }
+
+    /* Hover Effect for Mobile Navbar Links (Only Color Change to Maroon) */
+    .mobile-link:hover {
+      color: #800000;
+      /* Warna maroon saat hover */
+    }
+
+    /* Hover Effect for Menu Button (Hamburger) in Mobile */
+    .toggle-icon:hover {
+      color: #800000;
+      /* Warna maroon saat hover */
+      transition: color 0.3s ease-in-out;
+      /* Efek transisi warna */
+    }
+
+    .navbar-link {
+      position: relative;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      /* full rounded */
+      transition: all 0.3s ease;
+      color: white;
+    }
+
+    .navbar-link:hover {
+      color: #800000;
+      /* warna maroon pas hover */
+    }
+
+    /* Style aktif */
+    .navbar-link.active {
+      background-color: #800000;
+      /* warna maroon */
+      color: white;
+      /* teks putih */
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(128, 0, 0, 0.4);
+    }
+
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-gradient-to-b from-[#FEFCF3] to-[#F0DBDB] min-h-screen flex flex-col items-center pt-[100px]">
+    <!-- Navbar Desktop -->
+    <nav
+      class="fixed top-0 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[1756px] h-[80px] bg-[#CD9875] rounded-[30px] flex items-center justify-between px-8 hidden lg:flex z-[9999] shadow-lg">
+      <div class="flex items-center gap-3">
+        <img src="img/logo-sarsa.png" class="w-16 h-16 object-cover" alt="SARSA Logo" />
+        <div class="text-white text-2xl font-bold">SARSA.ID</div>
+      </div>
+      <div class="flex gap-10">
+        <a href="/" class="text-white text-lg font-bold navbar-link">Beranda</a>
+        <a href="/gallery" class="text-white text-lg font-bold navbar-link active">Galeri & Inspirasi</a>
+        <a href="/workshop" class="text-white text-lg font-bold navbar-link">Workshop</a>
+        <a href="/service" class="text-white text-lg font-bold navbar-link">Layanan</a>
+      </div>
+    </nav>
+    <!-- End Navbar Desktop -->
+
+    <!-- Navbar Mobile -->
+    <div
+      class="fixed top-0 left-1/2 transform -translate-x-1/2 w-[90%] max-w-[600px] h-[70px] bg-[#CD9875] rounded-[20px] flex items-center justify-between px-4 lg:hidden z-[9999] shadow-lg">
+      <div class="flex items-center gap-2">
+        <img src="img/logo-sarsa.png" class="w-12 h-12 object-cover" alt="SARSA Logo" />
+        <div class="text-white text-lg font-bold">SARSA.ID</div>
+      </div>
+      <button onclick="toggleMenu()" id="menuButton" class="text-white text-xl font-bold toggle-icon">
+        ☰
+      </button>
+    </div>
+
+    <!-- Menu Mobile -->
+    <div id="mobileMenu"
+      class="hidden bg-[#CD9875] rounded-[20px] w-[90%] max-w-[600px] fixed left-1/2 transform -translate-x-1/2 mt-3 top-[70px] z-[9998] shadow-lg">
+      <a href="/" class="block text-white text-lg font-bold p-3 text-center mobile-link">Beranda</a>
+      <a href="/gallery" class="block text-white text-lg font-bold p-3 text-center mobile-link">Galeri & Inspirasi</a>
+      <a href="/workshop" class="block text-white text-lg font-bold p-3 text-center mobile-link">Workshop</a>
+      <a href="/service" class="block text-white text-lg font-bold p-3 text-center mobile-link">Layanan</a>
+    </div>
+    <!-- End Navbar Mobile -->
+
+    <!-- Section 1 -->
+    <div class="relative w-full flex items-center justify-center mt-10 sm:mt-20 md:mt-32 lg:mt-40">
+      <img class="absolute left-0 top-1/2 transform -translate-y-1/2 w-24 sm:w-32 md:w-40 lg:w-52 xl:w-64 z-10"
+        src="img/icon2-gallery.svg" alt="Left Icon" />
+      <h1
+        class="relative text-[#79380e] font-quicksand font-bold text-xl sm:text-2xl md:text-4xl lg:text-5xl leading-tight text-center px-16 sm:px-20 z-20 flex items-center justify-center gap-1">
+        <img src="img/ideate.svg" alt="Idea Icon" class="w-7 sm:w-9 md:w-11 lg:w-13" />
+        JELAJAHI KOLEKSI KARYA
+        <img src="img/ideate.svg" alt="Idea Icon" class="w-7 sm:w-9 md:w-11 lg:w-13" />
+      </h1>
+      <img class="absolute right-0 top-1/2 transform -translate-y-1/2 w-24 sm:w-32 md:w-40 lg:w-52 xl:w-64 z-10"
+        src="img/icon1-gallery.svg" alt="Right Icon" />
+    </div>
+
+    <!-- Dokumentasi Koleksi 1 -->
+    <div class="w-full px-4 md:px-0 max-w-[1050px] mt-40">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <!-- Frame 1-14 -->
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi1.jpeg" alt="Frame 1" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi2.jpeg" alt="Frame 2" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi3.jpeg" alt="Frame 3" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi4.jpeg" alt="Frame 4" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi5.jpeg" alt="Frame 5" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi6.jpeg" alt="Frame 6" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi7.jpeg" alt="Frame 7" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi8.jpeg" alt="Frame 8" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi9.jpeg" alt="Frame 9" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi10.jpeg" alt="Frame 10" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi11.jpeg" alt="Frame 11" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi12.jpeg" alt="Frame 12" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1-koleksi13.jpeg" alt="Frame 13" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f1_koleksi14.jpg" alt="Frame 14" class="w-full h-full object-cover rounded-lg" />
+          </div>
+        </div>
+        <!-- Navigasi -->
+        <div class="swiper-button-next text-gray-800"></div>
+        <div class="swiper-button-prev text-gray-800"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <!-- Dokumentasi Koleksi 2 -->
+    <div class="w-full px-4 md:px-0 max-w-[1050px] mt-12">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <!-- Frame 1-14 -->
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi1.jpg" alt="Frame 1" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi2.jpg" alt="Frame 2" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi3.jpg" alt="Frame 3" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi4.jpg" alt="Frame 4" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi5.jpg" alt="Frame 5" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi6.jpg" alt="Frame 6" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi7.jpg" alt="Frame 7" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi8.jpg" alt="Frame 8" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi9.jpg" alt="Frame 9" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi10.jpg" alt="Frame 10" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi11.jpg" alt="Frame 11" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi12.jpg" alt="Frame 12" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi13.jpg" alt="Frame 13" class="w-full h-full object-cover rounded-lg" />
+          </div>
+          <div class="swiper-slide w-[250px] h-[160px] md:w-[360px] md:h-[240px]">
+            <img src="img/f2-koleksi14.jpg" alt="Frame 14" class="w-full h-full object-cover rounded-lg" />
+          </div>
+        </div>
+        <!-- Navigasi -->
+        <div class="swiper-button-next text-gray-800"></div>
+        <div class="swiper-button-prev text-gray-800"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+  <!-- End Section 1 -->
+
+  <!-- Section 2 -->
+  <div
+    class="relative w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#F2DFDE] to-[#E3B7A0] px-4 pt-12 pb-16">
+    <h1
+      class="relative text-[#79380e] font-quicksand font-bold text-xl sm:text-2xl md:text-4xl lg:text-5xl leading-tight text-center px-16 sm:px-20 z-20 flex items-center justify-center gap-1">
+      <img src="img/ideate.svg" alt="Idea Icon" class="w-7 sm:w-9 md:w-11 lg:w-13" />
+      TEMUKAN REFERENSIMU
+      <img src="img/ideate.svg" alt="Idea Icon" class="w-7 sm:w-9 md:w-11 lg:w-13" />
+    </h1>
+    <div class="w-full max-w-[1050px] mt-12">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <!-- Slide 1 -->
+          <div class="swiper-slide">
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref1.png" alt="Frame 1" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref2.png" alt="Frame 2" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref3.png" alt="Frame 3" class="w-full h-full object-cover rounded-lg">
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="swiper-slide">
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref4.png" alt="Frame 4" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref5.png" alt="Frame 5" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref6.png" alt="Frame 6" class="w-full h-full object-cover rounded-lg">
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="swiper-slide">
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref7.png" alt="Frame 7" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref8.png" alt="Frame 8" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref9.png" alt="Frame 9" class="w-full h-full object-cover rounded-lg">
+            </div>
+          </div>
+          <!-- Slide 4 -->
+          <div class="swiper-slide">
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref10.png" alt="Frame 10" class="w-full h-full object-cover rounded-lg">
+            </div>
+            <div class="frame w-[220px] h-[140px] md:w-[330px] md:h-[210px]">
+              <img src="img/foto-ref11.png" alt="Frame 11" class="w-full h-full object-cover rounded-lg">
+            </div>
+          </div>
+        </div>
+        <!-- Navigation -->
+        <div class="swiper-button-next text-gray-800"></div>
+        <div class="swiper-button-prev text-gray-800"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+    <a href="https://pin.it/38ocHNcCl" target="_blank" rel="noopener noreferrer">
+      <button
+        class="bg-[#c06060] hover:bg-[#d48080] text-white text-base sm:text-lg md:text-2xl lg:text-3xl font-quicksand font-bold px-6 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 lg:px-12 lg:py-6 rounded-full tracking-wider mt-8 mb-8 transition-colors duration-300">
+        REFERENSI
+      </button>
+    </a>
+    <footer
+      class="absolute bottom-0 left-0 w-full bg-[#9A7359] py-4 text-center text-white text-sm sm:text-base md:text-lg lg:text-xl font-semibold">
+      <p>2025 by Ay. All rights reserved.</p>
+    </footer>
+  </div>
+  <!-- End Section 2 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
