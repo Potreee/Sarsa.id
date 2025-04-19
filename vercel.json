@@ -5,5 +5,20 @@
     { "source": "/service", "destination": "/page-service/src/index.html" },
     { "source": "/workshop", "destination": "/page-workshop/src/index.html" },
     { "source": "/error", "destination": "/page-error/src/index.html" }
+
+    { "source": "/gallery/img/:path*", "destination": "/page-gallery/src/img/:path*" },
+    { "source": "/gallery/script.js", "destination": "/page-gallery/src/script.js" },
+
+    { "source": "/service/img/:path*", "destination": "/page-service/src/img/:path*" },
+    { "source": "/service/script.js", "destination": "/page-service/src/script.js" },
+
+    { "source": "/workshop/img/:path*", "destination": "/page-workshop/src/img/:path*" },
+    { "source": "/workshop/script.js", "destination": "/page-workshop/src/script.js" },
+
+    { "source": "/error/img/:path*", "destination": "/page-error/src/img/:path*" },
+    { "source": "/error/script.js", "destination": "/page-error/src/script.js" },
+
+    { "source": "/img/:path*", "destination": "/page-home/src/img/:path*" },
+    { "source": "/script.js", "destination": "/page-home/src/script.js" }
   ]
 }
