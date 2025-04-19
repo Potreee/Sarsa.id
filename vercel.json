@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/page-home/src/index.html" },
+    { "source": "/gallery", "destination": "/page-gallery/src/index.html" },
+    { "source": "/service", "destination": "/page-service/src/index.html" },
+    { "source": "/workshop", "destination": "/page-workshop/src/index.html" },
+    { "source": "/error", "destination": "/page-error/src/index.html" }
+  ]
+}
