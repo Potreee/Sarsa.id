@@ -19,11 +19,6 @@
     { "source": "/error/script.js", "destination": "/page-error/src/script.js" },
 
     { "source": "/img/:path*", "destination": "/page-home/src/img/:path*" },
-    { "source": "/script.js", "destination": "/page-home/src/script.js" },
-
-    { "source": "/:page/img/:file*.svg", "destination": "/page-:page/src/img/:file*.svg" },
-    { "source": "/:page/img/:file*.png", "destination": "/page-:page/src/img/:file*.png" },
-    { "source": "/:page/img/:file*.jpg", "destination": "/page-:page/src/img/:file*.jpg" },
-    { "source": "/:page/img/:file*.jpeg", "destination": "/page-:page/src/img/:file*.jpeg" }
+    { "source": "/script.js", "destination": "/page-home/src/script.js" }
   ]
 }
